@@ -1,21 +1,27 @@
 import UIKit
 
-protocol AddItemViewControllerDelegate: AnyObject {
-    func addItemViewControllerDidCancel(_ controller: AddItemViewController)
-
-    func addItemViewController(_ controller: AddItemViewController, didFinishAdding item: ChecklistItem)
+protocol ItemDetailViewControllerDelegate: AnyObject {
+    func ItemDetailViewControllerDidCancel(_ controller: ItemDetailViewController)
+    func ItemDetailViewController(_ controller: ItemDetailViewController, didFinishAdding item: ChecklistItem)
+    func ItemDetailViewController(_ controller: ItemDetailViewController, didFinishEditing item: ChecklistItem)
 }
 
-class AddItemViewController: UITableViewController, UITextFieldDelegate {
+class ItemDetailViewController: UITableViewController, UITextFieldDelegate {
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var doneBarButton: UIBarButtonItem!
 
-    weak var delegate: AddItemViewControllerDelegate?
+    weak var delegate: ItemDetailViewControllerDelegate?
+    var itemToEdit: ChecklistItem?
     
     //MARK: Overrided methods
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.largeTitleDisplayMode = .never
+        if let item = itemToEdit {
+            title = "Edit Item"
+            textField.text = item.text
+            doneBarButton.isEnabled = true
+        }
     }
 
     override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
@@ -29,14 +35,18 @@ class AddItemViewController: UITableViewController, UITextFieldDelegate {
 
     //MARK: @IBActions methods
     @IBAction func cancel() {
-        delegate?.addItemViewControllerDidCancel(self)
+        delegate?.ItemDetailViewControllerDidCancel(self)
     }
 
     @IBAction func done() {
-        let item = ChecklistItem()
-        item.text = textField.text!
-
-        delegate?.addItemViewController(self, didFinishAdding: item)
+        if let item = itemToEdit {
+            item.text = textField.text!
+            delegate?.ItemDetailViewController(self, didFinishEditing: item)
+        } else {
+            let item = ChecklistItem()
+            item.text = textField.text!
+            delegate?.ItemDetailViewController(self, didFinishAdding: item)
+        }
     }
 
     //MARK: Instance methods
