@@ -1,8 +1,16 @@
 import UIKit
 
+protocol AddItemViewControllerDelegate: AnyObject {
+    func addItemViewControllerDidCancel(_ controller: AddItemViewController)
+
+    func addItemViewController(_ controller: AddItemViewController, didFinishAdding item: ChecklistItem)
+}
+
 class AddItemViewController: UITableViewController, UITextFieldDelegate {
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var doneBarButton: UIBarButtonItem!
+
+    weak var delegate: AddItemViewControllerDelegate?
     
     //MARK: Overrided methods
     override func viewDidLoad() {
@@ -21,12 +29,14 @@ class AddItemViewController: UITableViewController, UITextFieldDelegate {
 
     //MARK: @IBActions methods
     @IBAction func cancel() {
-        navigationController?.popViewController(animated: true)
+        delegate?.addItemViewControllerDidCancel(self)
     }
 
     @IBAction func done() {
-        print("Contents of the text field: \(textField.text!)")
-        navigationController?.popViewController(animated: true)
+        let item = ChecklistItem()
+        item.text = textField.text!
+
+        delegate?.addItemViewController(self, didFinishAdding: item)
     }
 
     //MARK: Instance methods
@@ -37,6 +47,11 @@ class AddItemViewController: UITableViewController, UITextFieldDelegate {
 
         doneBarButton.isEnabled = !newText.isEmpty
 
+        return true
+    }
+
+    func textFieldShouldClear(_ textField: UITextField) -> Bool {
+        doneBarButton.isEnabled = false
         return true
     }
 

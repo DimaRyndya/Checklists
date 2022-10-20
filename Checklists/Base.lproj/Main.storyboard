@@ -47,7 +47,7 @@
                     <navigationItem key="navigationItem" title="Checklists" id="BVd-LQ-OwC">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="kiC-hQ-vrL">
                             <connections>
-                                <segue destination="194-zL-rEQ" kind="show" id="8Pa-11-LJF"/>
+                                <segue destination="194-zL-rEQ" kind="show" identifier="AddItem" id="8Pa-11-LJF"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -74,7 +74,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="26.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Name of the Item" textAlignment="natural" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="7ek-Xj-8Ar">
+                                                <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Name of the Item" textAlignment="natural" adjustsFontSizeToFit="NO" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="7ek-Xj-8Ar">
                                                     <rect key="frame" x="16" y="2" width="343" height="22.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
