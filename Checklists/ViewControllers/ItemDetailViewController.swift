@@ -9,6 +9,9 @@ protocol ItemDetailViewControllerDelegate: AnyObject {
 class ItemDetailViewController: UITableViewController, UITextFieldDelegate {
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var doneBarButton: UIBarButtonItem!
+    @IBOutlet weak var shouldRemindSwitch: UISwitch!
+    @IBOutlet weak var datePicker: UIDatePicker!
+
 
     weak var delegate: ItemDetailViewControllerDelegate?
     var itemToEdit: ChecklistItem?
@@ -43,7 +46,8 @@ class ItemDetailViewController: UITableViewController, UITextFieldDelegate {
             item.text = textField.text!
             delegate?.ItemDetailViewController(self, didFinishEditing: item)
         } else {
-            let item = ChecklistItem(text: textField.text!)
+            let item = ChecklistItem()
+            item.text = textField.text!
 
             delegate?.ItemDetailViewController(self, didFinishAdding: item)
         }
