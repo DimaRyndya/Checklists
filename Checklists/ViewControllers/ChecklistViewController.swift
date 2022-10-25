@@ -42,11 +42,20 @@ class ChecklistViewController: UITableViewController, ItemDetailViewControllerDe
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ChecklistItem", for: indexPath)
+        //  let cell = tableView.dequeueReusableCell(withIdentifier: "ChecklistItem", for: indexPath)
+        let cell: UITableViewCell!
+        if let tmp = tableView.dequeueReusableCell(withIdentifier: "ChecklistItem") {
+            cell = tmp
+        } else {
+           cell = UITableViewCell(style: .subtitle, reuseIdentifier: "ChecklistItem")
+        }
+//
+//        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "ChecklistItem")
         let item = checklist.items[indexPath.row]
         
         configureText(for: cell, with: item)
         configureCheckmark(for: cell, with: item)
+        configureDetailedText(for: cell, with: item)
         
         return cell
     }
@@ -86,7 +95,6 @@ class ChecklistViewController: UITableViewController, ItemDetailViewControllerDe
         for cell: UITableViewCell,
         with item: ChecklistItem
     ) {
-        
         let label = cell.viewWithTag(1001) as! UILabel
         
         if item.checked {
@@ -96,10 +104,16 @@ class ChecklistViewController: UITableViewController, ItemDetailViewControllerDe
         }
     }
     
-    func configureText(for cell: UITableViewCell, with item: ChecklistItem
-    ) {
+    func configureText(for cell: UITableViewCell, with item: ChecklistItem) {
         let label = cell.viewWithTag(1000) as! UILabel
         label.text = item.text
+    }
+
+    func configureDetailedText(for cell: UITableViewCell, with item: ChecklistItem) {
+        if let label = cell.detailTextLabel {
+            label.text = "\(item.dueDate)"
+            print("\(label.text ?? "No Value")")
+        }
     }
     
 }
