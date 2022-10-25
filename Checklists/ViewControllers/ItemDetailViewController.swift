@@ -20,10 +20,13 @@ class ItemDetailViewController: UITableViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.largeTitleDisplayMode = .never
+        datePicker.date = Calendar.current.date(byAdding: .day, value: 1, to: datePicker.date)!
         if let item = itemToEdit {
             title = "Edit Item"
             textField.text = item.text
             doneBarButton.isEnabled = true
+            shouldRemindSwitch.isOn = item.shouldRemind
+            datePicker.date = item.dueDate
         }
     }
 
@@ -44,13 +47,32 @@ class ItemDetailViewController: UITableViewController, UITextFieldDelegate {
     @IBAction func done() {
         if let item = itemToEdit {
             item.text = textField.text!
+            item.shouldRemind = shouldRemindSwitch.isOn
+            item.dueDate = datePicker.date
+            item.scheduleNotification()
+
             delegate?.ItemDetailViewController(self, didFinishEditing: item)
         } else {
             let item = ChecklistItem()
             item.text = textField.text!
+            item.shouldRemind = shouldRemindSwitch.isOn
+            item.dueDate = datePicker.date
+            item.scheduleNotification()
 
             delegate?.ItemDetailViewController(self, didFinishAdding: item)
         }
+    }
+
+    @IBAction func shouldRemindToggled(_ switchControl: UISwitch) {
+        textField.resignFirstResponder()
+
+        if switchControl.isOn {
+            let center = UNUserNotificationCenter.current()
+            center.requestAuthorization(options: [.alert, .sound]) {_,_ in 
+
+            }
+        }
+
     }
 
     //MARK: Instance methods
@@ -68,5 +90,6 @@ class ItemDetailViewController: UITableViewController, UITextFieldDelegate {
         doneBarButton.isEnabled = false
         return true
     }
+
 
 }

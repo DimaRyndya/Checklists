@@ -200,11 +200,10 @@
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" tag="1001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ggy-cA-p6e">
+                                        <label opaque="NO" userInteractionEnabled="NO" tag="1001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ggy-cA-p6e">
                                             <rect key="frame" x="16" y="10" width="25" height="26"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="25" id="5ic-cl-p7A"/>
-                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="26" id="PDE-Qe-Zyx"/>
+                                                <constraint firstAttribute="width" constant="25" id="eil-GX-QH4"/>
                                             </constraints>
                                             <string key="text" base64-UTF8="YES">
 FhYWIOKImiA
@@ -295,6 +294,10 @@ FhYWIOKImiA
                                             <subviews>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="JFk-x5-Q4P">
                                                     <rect key="frame" x="310" y="6" width="51" height="31.5"/>
+                                                    <color key="onTintColor" red="0.015686274509803921" green="0.66274509803921566" blue="0.92156862745098034" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <connections>
+                                                        <action selector="shouldRemindToggled:" destination="194-zL-rEQ" eventType="valueChanged" id="pcc-Et-9hp"/>
+                                                    </connections>
                                                 </switch>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Remind Me" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4qF-5f-4xH">
                                                     <rect key="frame" x="16" y="11.5" width="286" height="21"/>
@@ -321,7 +324,7 @@ FhYWIOKImiA
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Due Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OWa-54-KIn">
-                                                    <rect key="frame" x="16" y="15.5" width="105" height="21"/>
+                                                    <rect key="frame" x="16" y="16" width="105" height="20"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -336,10 +339,10 @@ FhYWIOKImiA
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="Cb0-a5-lLK" firstAttribute="top" secondItem="5Do-nl-HsS" secondAttribute="top" constant="4" id="1mS-MQ-Dzx"/>
-                                                <constraint firstItem="OWa-54-KIn" firstAttribute="leading" secondItem="5Do-nl-HsS" secondAttribute="leadingMargin" id="5SX-dr-DQ7"/>
-                                                <constraint firstItem="Cb0-a5-lLK" firstAttribute="leading" secondItem="OWa-54-KIn" secondAttribute="trailing" constant="8" id="Dy1-Ec-MXE"/>
+                                                <constraint firstItem="OWa-54-KIn" firstAttribute="leading" secondItem="5Do-nl-HsS" secondAttribute="leadingMargin" id="AbP-S7-21U"/>
                                                 <constraint firstAttribute="trailing" secondItem="Cb0-a5-lLK" secondAttribute="trailing" constant="16" id="NZs-MK-tpG"/>
                                                 <constraint firstAttribute="bottom" secondItem="Cb0-a5-lLK" secondAttribute="bottom" constant="4" id="Tl4-zf-47g"/>
+                                                <constraint firstItem="Cb0-a5-lLK" firstAttribute="leading" secondItem="OWa-54-KIn" secondAttribute="trailing" constant="8" id="bgx-aM-zcr"/>
                                                 <constraint firstItem="OWa-54-KIn" firstAttribute="centerY" secondItem="Cb0-a5-lLK" secondAttribute="centerY" id="zHO-Os-46m"/>
                                             </constraints>
                                         </tableViewCellContentView>
