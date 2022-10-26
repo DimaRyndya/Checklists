@@ -30,7 +30,9 @@ class ChecklistViewController: UITableViewController, ItemDetailViewControllerDe
         if let index = checklist.items.firstIndex(of: item) {
             let indexPath = IndexPath(row: index, section: 0)
             if let cell = tableView.cellForRow(at: indexPath) {
+
                 configureText(for: cell, with: item)
+                tableView.reloadData()
             }
         }
         navigationController?.popViewController(animated: true)
@@ -42,20 +44,12 @@ class ChecklistViewController: UITableViewController, ItemDetailViewControllerDe
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        //  let cell = tableView.dequeueReusableCell(withIdentifier: "ChecklistItem", for: indexPath)
-        let cell: UITableViewCell!
-        if let tmp = tableView.dequeueReusableCell(withIdentifier: "ChecklistItem") {
-            cell = tmp
-        } else {
-           cell = UITableViewCell(style: .subtitle, reuseIdentifier: "ChecklistItem")
-        }
-//
-//        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "ChecklistItem")
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ChecklistItem", for: indexPath)
         let item = checklist.items[indexPath.row]
-        
+
         configureText(for: cell, with: item)
         configureCheckmark(for: cell, with: item)
-        configureDetailedText(for: cell, with: item)
+
         
         return cell
     }
@@ -90,30 +84,36 @@ class ChecklistViewController: UITableViewController, ItemDetailViewControllerDe
             }
         }
     }
-    
+
     func configureCheckmark(
         for cell: UITableViewCell,
         with item: ChecklistItem
     ) {
-        let label = cell.viewWithTag(1001) as! UILabel
-        
+
         if item.checked {
-            label.text = "√"
+            cell.imageView!.image = UIImage(systemName: "checkmark.seal")
+            cell.detailTextLabel!.text = ""
+            item.shouldRemind = false
         } else {
-            label.text = ""
+            cell.imageView!.image = UIImage(systemName: "seal")
         }
     }
-    
     func configureText(for cell: UITableViewCell, with item: ChecklistItem) {
-        let label = cell.viewWithTag(1000) as! UILabel
-        label.text = item.text
+        cell.textLabel!.text = item.text
+
+        if item.shouldRemind {
+            cell.detailTextLabel!.text = "Reminder on: \(dateFormatter(date: item.dueDate))"
+            item.checked = false
+        } else {
+            cell.detailTextLabel!.text = ""
+        }
+
     }
 
-    func configureDetailedText(for cell: UITableViewCell, with item: ChecklistItem) {
-        if let label = cell.detailTextLabel {
-            label.text = "\(item.dueDate)"
-            print("\(label.text ?? "No Value")")
-        }
+    func dateFormatter(date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMM d, h:mm a"
+       return dateFormatter.string(from: date)
     }
-    
+
 }
