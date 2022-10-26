@@ -63,8 +63,9 @@ class ChecklistViewController: UITableViewController, ItemDetailViewControllerDe
             item.checked.toggle()
             configureCheckmark(for: cell,with: item)
         }
-        
+        sortChecklistItems()
         tableView.deselectRow(at: indexPath, animated: true)
+        tableView.reloadData()
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -120,5 +121,9 @@ class ChecklistViewController: UITableViewController, ItemDetailViewControllerDe
         checklist.items.sort(by: { item1, item2 in
            return item1.dueDate.compare(item2.dueDate) == .orderedAscending
         })
+
+        checklist.items.sort(by: { item1, item2 in
+            !item1.checked && item2.checked
+         })
     }
 }
