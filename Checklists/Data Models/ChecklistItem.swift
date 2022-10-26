@@ -10,7 +10,7 @@ class ChecklistItem: NSObject, Codable {
 
     override init() {
         super.init()
-        itemID = DataModel.nextChecklistItemID()
+        itemID = ChecklistDataModel.nextChecklistItemID()
     }
 
     deinit {
@@ -35,8 +35,6 @@ class ChecklistItem: NSObject, Codable {
 
             let center = UNUserNotificationCenter.current()
             center.add(request)
-
-            print("Scheduled: \(request) for itemID: \(itemID)")
         }
     }
 
@@ -44,6 +42,4 @@ class ChecklistItem: NSObject, Codable {
       let center = UNUserNotificationCenter.current()
       center.removePendingNotificationRequests(withIdentifiers: ["\(itemID)"])
     }
-
-
 }

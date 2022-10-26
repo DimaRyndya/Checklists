@@ -1,6 +1,6 @@
 import UIKit
 
-class DataModel {
+class ChecklistDataModel {
     var lists: [Checklist] = []
 
     var indexOfSelectedChecklist: Int {

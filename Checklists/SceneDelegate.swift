@@ -11,13 +11,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
 
-    let dataModel = DataModel()
+    let dataModel = ChecklistDataModel()
 
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         let navidationController = window!.rootViewController as! UINavigationController
         let controller = navidationController.viewControllers[0] as? AllListsViewController
-        controller?.dataModel = dataModel
+        controller?.checklistModel = dataModel
 
         guard let _ = (scene as? UIWindowScene) else { return }
     }

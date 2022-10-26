@@ -1,11 +1,11 @@
 import UIKit
 
 class AllListsViewController: UITableViewController, ListDetailViewControllerDelegate, UINavigationControllerDelegate {
-    var dataModel: DataModel!
+    var checklistModel: ChecklistDataModel!
 
     func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
         if viewController === self {
-            dataModel.indexOfSelectedChecklist = -1
+            checklistModel.indexOfSelectedChecklist = -1
         }
     }
 
@@ -14,14 +14,14 @@ class AllListsViewController: UITableViewController, ListDetailViewControllerDel
     }
 
     func listDetailViewController(_ controller: ListDetailViewController, didFinishAdding checklist: Checklist) {
-        dataModel.lists.append(checklist)
-        dataModel.sortChecklists()
+        checklistModel.lists.append(checklist)
+        checklistModel.sortChecklists()
         tableView.reloadData()
         navigationController?.popViewController(animated: true)
     }
 
     func listDetailViewController(_ controller: ListDetailViewController, didFinishAditing checklist: Checklist) {
-        dataModel.sortChecklists()
+        checklistModel.sortChecklists()
         tableView.reloadData()
         navigationController?.popViewController(animated: true)
     }
@@ -39,9 +39,9 @@ class AllListsViewController: UITableViewController, ListDetailViewControllerDel
 
         navigationController?.delegate = self
 
-        let index = dataModel.indexOfSelectedChecklist
-        if index >= 0 && index < dataModel.lists.count {
-            let checklist = dataModel.lists[index]
+        let index = checklistModel.indexOfSelectedChecklist
+        if index >= 0 && index < checklistModel.lists.count {
+            let checklist = checklistModel.lists[index]
             performSegue(withIdentifier: "ShowChecklist", sender: checklist)
         }
     }
@@ -56,21 +56,21 @@ class AllListsViewController: UITableViewController, ListDetailViewControllerDel
         let controller = storyboard!.instantiateViewController(withIdentifier: "ListDetailViewController") as! ListDetailViewController
         controller.delegate = self
 
-        let checklist = dataModel.lists[indexPath.row]
+        let checklist = checklistModel.lists[indexPath.row]
         controller.checklistToEdit = checklist
 
         navigationController?.pushViewController(controller, animated: true)
     }
 
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        dataModel.lists.remove(at: indexPath.row)
+        checklistModel.lists.remove(at: indexPath.row)
 
         let indexPaths = [indexPath]
         tableView.deleteRows(at: indexPaths, with: .automatic)
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dataModel.lists.count
+        return checklistModel.lists.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -80,7 +80,7 @@ class AllListsViewController: UITableViewController, ListDetailViewControllerDel
         } else {
             cell = UITableViewCell(style: .subtitle, reuseIdentifier: cellIdentifier)
         }
-        let checklist = dataModel.lists[indexPath.row]
+        let checklist = checklistModel.lists[indexPath.row]
         cell.textLabel!.text = checklist.name
         cell.accessoryType = .detailDisclosureButton
         cell.detailTextLabel!.text = "\(checklist.countUncheckedItems()) Remaining"
@@ -96,9 +96,9 @@ class AllListsViewController: UITableViewController, ListDetailViewControllerDel
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        dataModel.indexOfSelectedChecklist = indexPath.row
+        checklistModel.indexOfSelectedChecklist = indexPath.row
 
-        let checklist = dataModel.lists[indexPath.row]
+        let checklist = checklistModel.lists[indexPath.row]
         performSegue(withIdentifier: "ShowChecklist", sender: checklist)
     }
 

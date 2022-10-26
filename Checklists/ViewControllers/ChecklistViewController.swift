@@ -1,8 +1,7 @@
 import UIKit
 
 class ChecklistViewController: UITableViewController, ItemDetailViewControllerDelegate {
-    
-    var items = [ChecklistItem]()
+
     var checklist: Checklist!
     
     override func viewDidLoad() {
@@ -19,10 +18,13 @@ class ChecklistViewController: UITableViewController, ItemDetailViewControllerDe
     func ItemDetailViewController(_ controller: ItemDetailViewController, didFinishAdding item: ChecklistItem) {
         let newRowIndex = checklist.items.count
         checklist.items.append(item)
-        
+
         let indexPath = IndexPath(row: newRowIndex, section: 0)
         let indexPaths = [indexPath]
         tableView.insertRows(at: indexPaths, with: .automatic)
+        sortChecklistItems()
+        tableView.reloadData()
+        
         navigationController?.popViewController(animated: true)
     }
     
@@ -32,6 +34,7 @@ class ChecklistViewController: UITableViewController, ItemDetailViewControllerDe
             if let cell = tableView.cellForRow(at: indexPath) {
 
                 configureText(for: cell, with: item)
+                sortChecklistItems()
                 tableView.reloadData()
             }
         }
@@ -85,10 +88,7 @@ class ChecklistViewController: UITableViewController, ItemDetailViewControllerDe
         }
     }
 
-    func configureCheckmark(
-        for cell: UITableViewCell,
-        with item: ChecklistItem
-    ) {
+    func configureCheckmark(for cell: UITableViewCell, with item: ChecklistItem) {
 
         if item.checked {
             cell.imageView!.image = UIImage(systemName: "checkmark.seal")
@@ -102,7 +102,7 @@ class ChecklistViewController: UITableViewController, ItemDetailViewControllerDe
         cell.textLabel!.text = item.text
 
         if item.shouldRemind {
-            cell.detailTextLabel!.text = "Reminder on: \(dateFormatter(date: item.dueDate))"
+            cell.detailTextLabel!.text = "Reminder on: \(formatDate(date: item.dueDate))"
             item.checked = false
         } else {
             cell.detailTextLabel!.text = ""
@@ -110,10 +110,15 @@ class ChecklistViewController: UITableViewController, ItemDetailViewControllerDe
 
     }
 
-    func dateFormatter(date: Date) -> String {
+    func formatDate(date: Date) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MMM d, h:mm a"
        return dateFormatter.string(from: date)
     }
 
+    func sortChecklistItems() {
+        checklist.items.sort(by: { item1, item2 in
+           return item1.dueDate.compare(item2.dueDate) == .orderedAscending
+        })
+    }
 }
